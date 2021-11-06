@@ -6,16 +6,30 @@ import codecs
 filename = 'yelp_labelled.txt'  
 
 def countWords(str):
-    occurrences = dict()
-    words = str.split()
+    occurrencesPos = dict()
+    occurrencesNeg = dict()
+    sentences = str.split('\n')
 
-    for word in words:
-        if word in occurrences:
-            occurrences[word] += 1
+    for sentence in sentences:
+        if sentence.endswith("1"):
+            words = sentence.split()
+            for word in words:
+                if word in occurrencesPos:
+                    occurrencesPos[word] += 1
+                else:
+                    occurrencesPos[word] = 1
         else:
-            occurrences[word] = 1
-
-    return occurrences
+            words = sentence.split()
+            for word in words:
+                if word in occurrencesNeg:
+                    occurrencesNeg[word] += 1
+                else:
+                    occurrencesNeg[word] = 1
+    occurrencesPos.pop('1')
+    occurrencesNeg.pop('0')
+    print("Positivas: {}" .format(occurrencesPos))
+    print("\n")
+    print("Negativas: {}" .format(occurrencesNeg))
 
 try:
     with open(filename,'r',encoding="utf-8") as f:
@@ -24,6 +38,7 @@ try:
         for word in data:
             out = ''.join([i for i in word if i not in string.punctuation]).lower()
             f.write(out)
-    print(countWords(data))
+    countWords(data)
 except FileNotFoundError:
     print("File not found")
+
