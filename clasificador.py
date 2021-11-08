@@ -21,11 +21,13 @@ def countWords(str):
     occurrencesPos = dict()
     occurrencesNeg = dict()
     sentences = str.split('\n')
-
+    palabrasPos = 0
+    palabrasNeg = 0
     for sentence in sentences:
         if sentence.endswith("1"):
             words = sentence.split()
             for word in words:
+                palabrasPos+=1
                 if word in occurrencesPos:
                     tmp = occurrencesPos[word]
                     tmp[0]+=1
@@ -35,6 +37,7 @@ def countWords(str):
         else:
             words = sentence.split()
             for word in words:
+                palabrasNeg+=1
                 if word in occurrencesNeg:
                     tmp = occurrencesNeg[word]
                     tmp[1]+=1
@@ -42,12 +45,15 @@ def countWords(str):
                     occurrencesNeg[word] = [0, 1]
     positivas = occurrencesPos.get('1')[0]
     negativas = occurrencesNeg.get('0')[1]
+    palabrasPos-=positivas
+    palabrasNeg-=negativas
+    total = positivas + negativas
     occurrencesPos.pop('1')
     occurrencesNeg.pop('0')
-    # print("Palabras positivas: {}" .format(sum(occurrencesPos.values())))
-    # print("Palabras negativas: {}" .format(sum(occurrencesNeg.values())))
-    print("Oraciones Positivas: {}" .format(positivas))
-    print("Oraciones Negativas: {}" .format(negativas))
+    print("Palabras positivas: {}" .format(palabrasPos))
+    print("Palabras negativas: {}" .format(palabrasNeg))
+    print("Oraciones Positivas: {}" .format(positivas/total))
+    print("Oraciones Negativas: {}" .format(negativas/total))
     vocabulario = {**occurrencesPos , **occurrencesNeg}
     print("Vocabulario: {}" .format(len(vocabulario)))
 
