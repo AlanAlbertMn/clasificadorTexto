@@ -5,13 +5,19 @@ import codecs
 import math
 
 filename = 'yelp_labelled.txt'
+outfilename = 'bayesTraining.csv'
 
 def bayes(dictPos, dictNeg, dictTotal, pos, neg):
     dictLogs = dict()
-    for i, j in dictTotal.items():
-        tmpPos = ((dictTotal[i][0]+1)/(pos+len(dictTotal)))
-        tmpNeg = ((dictTotal[i][1]+1)/(neg+len(dictTotal)))
-        print("{} {} {} {} {}" .format(i, dictTotal[i][0], dictTotal[i][1], math.log10(tmpPos), math.log10(tmpNeg)))
+    with open(outfilename,"w+",encoding="utf-8") as f:
+        f.write("Clase, FrecPos, FrecNeg, LogPos, LogNeg\n")
+        for i, j in dictTotal.items():
+            tmpPos = ((dictTotal[i][0]+1)/(pos+len(dictTotal)))
+            tmpNeg = ((dictTotal[i][1]+1)/(neg+len(dictTotal)))
+            instance = ("{}, {}, {}, {}, {}\n" .format(i, dictTotal[i][0], dictTotal[i][1], math.log10(tmpPos), math.log10(tmpNeg)))
+            print(instance)
+            f.write(instance)
+        #SOLO FALTA TOMAR 900 ALEATORIOS, ENTRENAR, TOMAR LOS 100 RESTANTES Y APLICAR BAYES PARA DEFINIR SI POS O NEG. DESPUES COMPARAR CON DATO REAL 
 
 def mergeDict(dict1, dict2):
     # Merge dictionaries and keep values of common keys in list
